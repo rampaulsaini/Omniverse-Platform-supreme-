@@ -1,0 +1,93 @@
+# .github/workflows/generate_dashboard_status.yml
+name: Generate Dashboard Status JSON
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  generate-status:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Fetch Workflow Statuses
+        run: |
+          echo '{"Backend":"success","Frontend":"success","ML Models":"success","Security":"success","AutoMode Pipelines":"success"}' > dashboard/status.json
+          # 🔹 Optional: Use GitHub CLI to fetch real workflow runs
+          # gh workflow run backend.yml --repo YOUR_REPO --json conclusion > dashboard/status.json
+
+      - name: Deploy to AutoMode Folder
+        run: |
+          mkdir -p /path/to/automode/deploy/
+          cp -r dashboard/* /path/to/automode/deploy/
+          <!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Omniverse Supreme Dashboard</title>
+<style>
+  body { font-family: 'Segoe UI', sans-serif; margin:0; padding:0; background:#1e1e2f; color:#fff; transition:background 0.5s; }
+  header { background: linear-gradient(90deg,#4a00e0,#8e2de2); padding:1rem; text-align:center; font-size:1.8rem; font-weight:bold; animation:headerGlow 2s infinite alternate; }
+  @keyframes headerGlow {0%{text-shadow:0 0 5px #8e2de2;}100%{text-shadow:0 0 20px #4a00e0;}}
+  .container { display:flex; flex-direction:column; align-items:center; padding:1rem; }
+  .module { background:#2e2e4f; margin:0.5rem; padding:1rem; border-radius:1rem; width:90%; max-width:420px; display:flex; justify-content:space-between; align-items:center; transition: transform 0.3s;}
+  .module:hover{ transform:scale(1.03);}
+  .status{ font-weight:bold; padding:0.3rem 0.7rem; border-radius:0.5rem; animation:pulse 2s infinite; }
+  .success{ background:#00c851; }
+  .pending{ background:#ffbb33; }
+  .error{ background:#ff4444; }
+  @keyframes pulse {0%{transform:scale(1); opacity:1;}50%{transform:scale(1.1); opacity:0.8;}100%{transform:scale(1); opacity:1;}}
+  footer { text-align:center; margin:1rem; font-size:0.9rem; color:#bbb; }
+</style>
+</head>
+<body>
+
+<header>Omniverse Supreme Dashboard</header>
+
+<div class="container" id="modules">
+  <div class="module" data-name="Backend"><span>Backend</span><span class="status pending">⏳ लोड हो रहा...</span></div>
+  <div class="module" data-name="Frontend"><span>Frontend</span><span class="status pending">⏳ लोड हो रहा...</span></div>
+  <div class="module" data-name="ML Models"><span>ML Models</span><span class="status pending">⏳ लोड हो रहा...</span></div>
+  <div class="module" data-name="Security"><span>Security</span><span class="status pending">⏳ लोड हो रहा...</span></div>
+  <div class="module" data-name="AutoMode Pipelines"><span>AutoMode Pipelines</span><span class="status pending">⏳ लोड हो रहा...</span></div>
+</div>
+
+<footer>सुप्रीम ऑटोमेशन & मॉनिटरिंग | Omniverse Platform</footer>
+
+<script>
+// 🔹 Client-side fetch from server-generated status.json
+async function updateAllStatuses(){
+  try {
+    const response = await fetch('/status.json');
+    const data = await response.json();
+    document.querySelectorAll('.module').forEach(mod => {
+      const statusEl = mod.querySelector('.status');
+      const status = data[mod.dataset.name];
+      if(status==="success"){ statusEl.textContent="✅ सक्रिय"; statusEl.className="status success"; }
+      else if(status==="error"){ statusEl.textContent="❌ त्रुटि"; statusEl.className="status error"; }
+      else { statusEl.textContent="⏳ प्रक्रिया में"; statusEl.className="status pending"; }
+    });
+  } catch(e){
+    console.error("Status fetch error:", e);
+  }
+}
+
+// 🔹 Request Notification Permission
+if(Notification.permission !== "granted"){ Notification.requestPermission(); }
+
+// 🔹 Auto-update every 30 seconds
+updateAllStatuses();
+setInterval(updateAllStatuses, 30000);
+</script>
+
+</body>
+</html>
+Omniverse-Platform-supreme-/
+└── .github/
+    └── workflows/
+        └── generate_dashboard_status.yml
+        /path/to/automode/deploy/dashboard.html
+/path/to/automode/deploy/status.json  <-- workflow के generate करने के बाद

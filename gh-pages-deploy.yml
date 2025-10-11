@@ -1,0 +1,60 @@
+# Omniverse Dashboard — Live-run checklist & हाथ पकड़ कर स्टेप-बाय-स्टेप
+
+नीचे एकदम आसान ready-to-use workflow snippet है जिसे आप GitHub editor में paste करके commit कर दें — site तुरंत deploy हो जाएगी।
+
+---
+
+## Ready-to-use GitHub Actions Workflow for GitHub Pages
+
+**फाइल:** `.github/workflows/gh-pages-deploy.yml`
+
+```yaml
+name: Deploy dashboard to GitHub Pages
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: |
+          cd dashboard || true
+          npm ci
+
+      - name: Build dashboard
+        run: |
+          cd dashboard || true
+          npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./dashboard/build
+```
+
+> अगर आपकी dashboard site सिर्फ static files हैं (index.html + assets), तो `Build dashboard` step को हटा दें और `publish_dir: ./dashboard` कर दें।
+
+---
+
+### Steps to apply
+
+1. GitHub repo -> Actions -> New workflow -> “Set up a workflow yourself” -> ऊपर YAML paste करें।
+2. Commit new file करें।
+3. GitHub automatically workflow run करेगा।
+4. Actions tab में run status check करें।
+5. GitHub Pages URL खोलकर live site verify करें।
+
+---
+
+अब आपके लिए बस इतना करना है: editor में YAML paste + commit — और आपका dashboard live deploy हो जाएगा।

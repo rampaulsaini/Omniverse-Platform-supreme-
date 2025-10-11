@@ -52,6 +52,9 @@ Supreme Omniverse AI Assistant एक पूर्णत: स्वचालि�
 ---
 
 ## 🌐 System Flow (Simplified)
+```
+Sub-project Output → Income Node → Wallet / Payment Gateway → Dashboard Analytics → Automode Feedback Loop
+```
 
 ---
 

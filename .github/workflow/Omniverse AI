@@ -1,0 +1,10 @@
+OmniverseAI/
+│
+├─ index.html
+├─ style.css
+├─ script.js
+├─ languages.json
+└─ assets/
+    ├─ profile-photo.png
+    └─ voice.mp3
+    

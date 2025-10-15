@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0b0c10" />
+  <title>Supreme Omniverse AI Assistant</title>
+  <link rel="icon" href="assets/profile-photo.png" type="image/png" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container" role="main" aria-live="polite">
+    <h1>🌌 Supreme Omniverse AI Assistant</h1>
+
+    <div class="profile-container">
+      <img id="profilePhoto" src="assets/profile-photo.png" alt="Supreme Omniverse AI" />
+      <div class="lipsync" id="lipsync" aria-hidden="true"></div>
+    </div>
+
+    <div class="controls">
+      <label for="languageSelect" class="visually-hidden">Select language</label>
+      <select id="languageSelect" aria-label="Language select">
+        <option value="">Select Language</option>
+      </select>
+      <button id="playBtn" type="button">Play Message</button>
+      <button id="modeBtn" type="button">Switch Dark/Light Mode</button>
+    </div>
+
+    <audio id="voiceAudio" src="assets/voice.mp3" preload="metadata"></audio>
+
+    <noscript>
+      <p>JavaScript required — कृपया ब्राउज़र में JS enable करें।</p>
+    </noscript>
+  </div>
+
+  <script src="script.js" defer></script>
+</body>
+</html>

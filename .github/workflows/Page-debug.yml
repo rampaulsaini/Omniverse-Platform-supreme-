@@ -1,0 +1,71 @@
+name: Debug Pages Deploy (list files & attempt deploy)
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  inspect-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Show working directory & git info
+        run: |
+          pwd
+          echo "Current branch:"
+          git branch --show-current
+          echo "Remote origin:"
+          git remote -v
+
+      - name: List repo files (root)
+        run: |
+          echo "=== ROOT FILES ==="
+          ls -la
+          echo "=== FULL FILE LIST ==="
+          git ls-files
+          echo "=== FILE SIZES ==="
+          du -h --max-depth=1 || true
+
+      - name: Show index.html content if exists
+        run: |
+          if [ -f index.html ]; then
+            echo "---- index.html found ----"
+            head -n 60 index.html
+          else
+            echo "---- index.html NOT FOUND in repo root ----"
+          fi
+
+      - name: Show assets folder listing (if any)
+        run: |
+          if [ -d assets ]; then
+            echo "=== assets ==="
+            ls -la assets || true
+            du -h assets || true
+          else
+            echo "No assets folder"
+          fi
+
+      - name: Build (skip if static)
+        run: |
+          echo "No build step (static site)."
+
+      - name: Upload artifact for GitHub Pages (repo root)
+        uses: actions/upload-pages-artifact@v1
+        with:
+          path: .
+
+  deploy:
+    needs: inspect-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+        

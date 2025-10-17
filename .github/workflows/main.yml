@@ -1,4 +1,5 @@
-name: Deploy static site to GitHub Pages
+# .github/workflows/pages.yml
+name: Deploy static content to GitHub Pages
 
 on:
   push:
@@ -12,15 +13,25 @@ permissions:
   id-token: write
 
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repo
+      - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
+      - name: Upload artifact for GitHub Pages
+        uses: actions/upload-pages-artifact@v1
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./ 
-          
+          path: |
+            .
+          # optionally exclude .github so it won't get deployed
+          # You can add excludes if needed:
+          # exclude: .github/**
+
+  deploy:
+    needs: build-and-deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v1
+        

@@ -130,3 +130,16 @@ Back to main overview: [Omniverse Overview](README.md)
 > Replace rampaulsaini with your GitHub username and `YOUR_PAYPAL_BUTTON_ID` with your actual PayPal button ID.
 
 अब यह clean setup पूरी तरह ready है और आप आसानी से paste करके functional repository बना सकते हैं।
+# repo root पर जाएँ (अपने path डालें)
+cd "C:/path/to/Omniverse-AI"
+
+# add .nojekyll to avoid Jekyll processing (recommended)
+# on Windows use: type NUL > .nojekyll
+touch .nojekyll
+git add .nojekyll
+git commit -m "Add .nojekyll for GitHub Pages"
+git push origin main
+
+# then trigger a small redeploy (empty commit)
+git commit --allow-empty -m "Trigger Pages re-publish"
+git push origin main
